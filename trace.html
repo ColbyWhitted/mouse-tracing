@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+<style type="text/css">
+
+#mainDiv{
+	width: 600px;
+	height: 600px;
+	background-color: black;
+	position: relative;
+}
+
+#tracer{
+	width: 10px;
+	height: 10px;
+	background-color: green;
+	position: absolute;
+	border-radius: 100%;
+}
+
+#mainDiv p{
+	color: white;
+	font-size: 20px;
+}
+
+</style>
+
+</head>
+<body>
+<p>Rub your mouse all over dis block and den click da button</p>
+<div id="mainDiv" onmousemove="mainFunc(event)">
+	<div id="text"></div>
+	<div id="tracer"></div>
+</div>
+<button onclick="tracer()">
+	Retrace Your Mouse.
+</button>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+// onMouseMoveEvent
+// Send mouse Coords as array element to an array
+
+var coordsArray = [];
+var clickArray = [];
+function mainFunc(event){
+
+		var y = event.clientY;
+		var x = event.clientX;
+		coordsArray.push(x+":"+y);
+
+}
+
+
+
+function tracer(){
+
+	// The lower the smoothness level is
+	// The lower speed should be
+	var smoothness = 3;
+	var speed = 15 * smoothness;
+	$("#text").html("<p>Number of Coordinates Tracked: " +coordsArray.length+ ". Smoothness: "+smoothness+"</p>");
+	
+
+	for(var i=0;i<coordsArray.length;i+=smoothness){
+			positionArray = coordsArray[i].split(":");
+			x = positionArray[0];
+			y = positionArray[1];
+			var tracer = $("#tracer");
+			tracer.animate({
+				left: x,
+				top: y,
+				width: "10px",
+				height: "10px"
+			}, speed, function(){
+			})
+	}
+	coordsArray.length = 0;
+}
+
+
+</script>
+
+</body>
+</html>
